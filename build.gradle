@@ -1,0 +1,16 @@
+group 'com.github.voplex95'
+version '1.0.0-alpha1'
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    compile 'de.inetsoftware:jlessc:1.5'
+}
