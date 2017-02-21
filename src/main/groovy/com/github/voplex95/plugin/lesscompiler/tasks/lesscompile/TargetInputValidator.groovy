@@ -1,4 +1,4 @@
-package com.github.voplex95.plugin.lesscompiler.tasks
+package com.github.voplex95.plugin.lesscompiler.tasks.lesscompile
 
 import com.github.voplex95.plugin.lesscompiler.validation.StringValidator
 

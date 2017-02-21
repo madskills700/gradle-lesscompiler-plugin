@@ -1,9 +1,9 @@
-package com.github.voplex95.plugin.lesscompiler.tasks
+package com.github.voplex95.plugin.lesscompiler.tasks.lesscompile
 
 import com.github.voplex95.plugin.lesscompiler.utils.Extensions
 import com.github.voplex95.plugin.lesscompiler.validation.StringValidator
 
-import static com.github.voplex95.plugin.lesscompiler.utils.FilenameFilters.getFilterForExtension
+import static com.github.voplex95.plugin.lesscompiler.utils.FilenameFilters.withExtension
 
 class SourceInputValidator extends StringValidator {
 
@@ -21,7 +21,7 @@ class SourceInputValidator extends StringValidator {
 
     protected static isFolderThatContainsFilesWithExtension(String subject, String extension) {
         def f = new File(subject)
-        return f.isDirectory() && f.canRead() && f.list(getFilterForExtension(extension)).any()
+        return f.isDirectory() && f.canRead() && f.list(withExtension(extension)).any()
     }
 
 }

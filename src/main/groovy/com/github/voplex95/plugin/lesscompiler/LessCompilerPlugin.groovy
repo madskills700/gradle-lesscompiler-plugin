@@ -1,6 +1,6 @@
 package com.github.voplex95.plugin.lesscompiler
 
-import com.github.voplex95.plugin.lesscompiler.tasks.LessCompileTask
+import com.github.voplex95.plugin.lesscompiler.tasks.lesscompile.LessCompileTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

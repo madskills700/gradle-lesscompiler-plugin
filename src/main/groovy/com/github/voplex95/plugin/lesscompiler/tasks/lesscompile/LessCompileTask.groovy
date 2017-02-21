@@ -1,4 +1,4 @@
-package com.github.voplex95.plugin.lesscompiler.tasks
+package com.github.voplex95.plugin.lesscompiler.tasks.lesscompile
 
 import com.github.voplex95.plugin.lesscompiler.InputValidationException
 import com.github.voplex95.plugin.lesscompiler.utils.Extensions
@@ -8,7 +8,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-import static com.github.voplex95.plugin.lesscompiler.utils.FilenameFilters.getFilterForExtension
+import static com.github.voplex95.plugin.lesscompiler.utils.FilenameFilters.withExtensionExcludePrefix
 
 class LessCompileTask extends DefaultTask {
 
@@ -19,10 +19,13 @@ class LessCompileTask extends DefaultTask {
     String target
 
     @Optional @Input
+    String excludePrefix = '_'
+
+    @Optional @Input
     Boolean compress = false
 
     @TaskAction
-    void run() throws InputValidationException {
+    void run() throws InputValidationException, IOException {
 
         if(!new SourceInputValidator().validate(source)) {
             throw new InputValidationException("Source path $source is invalid. Nothing to compile")
@@ -32,29 +35,26 @@ class LessCompileTask extends DefaultTask {
             throw new InputValidationException("Target path $target is invalid")
         }
 
-        File[] lessFiles = listLessFilesForCompilation(source)
-
-        println lessFiles.length
+        File[] lessFiles = listLessFilesForCompilation()
 
         for(File lessFile in lessFiles) {
             def compiledContent = Less.compile(lessFile, compress)
             def destinationPath = new File(target).isFile() ? target :
                     target + File.separator + lessToCssFileName(lessFile.name)
-            try{
-                PrintWriter writer = new PrintWriter(destinationPath, "UTF-8")
-                writer.print(compiledContent)
-                writer.close()
-            } catch (IOException e) {
-                e.printStackTrace()
-            }
+
+            PrintWriter writer = new PrintWriter(destinationPath, "UTF-8")
+            writer.print(compiledContent)
+            writer.close()
+
         }
 
     }
 
-    private listLessFilesForCompilation(String source) {
+    private listLessFilesForCompilation() {
         def s = new File(source)
         s = s.isDirectory() ? s : s.getParentFile()
-        return s.isFile() ? s : s.listFiles(getFilterForExtension(Extensions.LESS))
+        return s.isFile() ? s :
+                s.listFiles(withExtensionExcludePrefix(Extensions.LESS, excludePrefix))
     }
 
     private lessToCssFileName(String lessName) {
