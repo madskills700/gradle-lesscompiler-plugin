@@ -1,8 +1,5 @@
 package com.github.voplex95.plugin.lesscompiler
 
-/**
- * Created by Illia Chtchoma on 20/02/2017.
- */
 class InputValidationException extends RuntimeException {
 
     InputValidationException() {

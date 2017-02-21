@@ -1,51 +1,47 @@
 package com.github.voplex95.plugin.lesscompiler.tasks
 
 import com.github.voplex95.plugin.lesscompiler.InputValidationException
+import com.github.voplex95.plugin.lesscompiler.utils.Extensions
 import com.inet.lib.less.Less
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-/**
- * Created by Illia Chtchoma on 19/02/2017.
- */
+import static com.github.voplex95.plugin.lesscompiler.utils.FilenameFilters.getFilterForExtension
+
 class LessCompileTask extends DefaultTask {
 
-    private static final String LESS_EXTENSION = ".less"
-    private static final String CSS_EXTENSION = ".css"
+    @Input
+    String source
 
     @Input
-    String srcDir
+    String target
 
-    @Input
-    String targetDir
-
-    @Input
-    @Optional
+    @Optional @Input
     Boolean compress = false
 
     @TaskAction
-    void exec() {
+    void run() throws InputValidationException {
 
-        def src = new File(srcDir)
-        def target = new File(targetDir)
-
-        if(!isValidSource(src)) {
-            throw new InputValidationException("Source path $srcDir is invalid. Can not find LESS file(s)")
+        if(!new SourceInputValidator().validate(source)) {
+            throw new InputValidationException("Source path $source is invalid. Nothing to compile")
         }
 
-        if(!isValidTarget(src)) {
+        if(!new TargetInputValidator().validate(target)) {
             throw new InputValidationException("Target path $target is invalid")
         }
 
-        println "Execution parameters: {source=$srcDir, destination=$targetDir, compress=$compress}"
+        File[] lessFiles = listLessFilesForCompilation(source)
 
-        for(File lessFile in listLessFiles(src)) {
+        println lessFiles.length
+
+        for(File lessFile in lessFiles) {
             def compiledContent = Less.compile(lessFile, compress)
-            def cssFileName = lessFile.name.replace(LESS_EXTENSION, CSS_EXTENSION)
+            def destinationPath = new File(target).isFile() ? target :
+                    target + File.separator + lessToCssFileName(lessFile.name)
             try{
-                PrintWriter writer = new PrintWriter(targetDir + File.separator + cssFileName, "UTF-8")
+                PrintWriter writer = new PrintWriter(destinationPath, "UTF-8")
                 writer.print(compiledContent)
                 writer.close()
             } catch (IOException e) {
@@ -55,21 +51,14 @@ class LessCompileTask extends DefaultTask {
 
     }
 
-    private static isValidSource(File src) {
-        src.isDirectory() && src.canRead() && listLessFiles(src).any()
+    private listLessFilesForCompilation(String source) {
+        def s = new File(source)
+        s = s.isDirectory() ? s : s.getParentFile()
+        return s.isFile() ? s : s.listFiles(getFilterForExtension(Extensions.LESS))
     }
 
-    private static isValidTarget(File target) {
-        target.isDirectory() && target.canWrite()
-    }
-
-    private static listLessFiles(src) {
-        src.listFiles(new FileFilter() {
-            @Override
-            boolean accept(File pathname) {
-                return pathname != null && pathname.getName().endsWith(LESS_EXTENSION)
-            }
-        })
+    private lessToCssFileName(String lessName) {
+        lessName.replace(Extensions.LESS, compress ? Extensions.MINIFIED_CSS : Extensions.CSS)
     }
 
 }
