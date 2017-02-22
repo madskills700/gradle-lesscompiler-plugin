@@ -1,0 +1,18 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath('com.github.voplex95:gradle-lesscompiler-plugin:+')
+    }
+}
+
+apply plugin: 'less'
+
+lessCompile {
+    source = 'src/test/resources/case_1/input'
+    excludePrefix = '_'
+    target = 'src/test/resources/case_1/output'
+    compress = true
+}

@@ -1,6 +1,6 @@
 package com.github.voplex95.plugin.lesscompiler.tasks.lesscompile
 
-import com.github.voplex95.plugin.lesscompiler.InputValidationException
+import com.github.voplex95.plugin.lesscompiler.validation.InputValidationException
 import com.github.voplex95.plugin.lesscompiler.utils.Extensions
 import com.inet.lib.less.Less
 import org.gradle.api.DefaultTask

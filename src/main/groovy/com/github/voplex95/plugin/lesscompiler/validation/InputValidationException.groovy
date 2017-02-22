@@ -1,4 +1,4 @@
-package com.github.voplex95.plugin.lesscompiler
+package com.github.voplex95.plugin.lesscompiler.validation
 
 class InputValidationException extends RuntimeException {
 
