@@ -1,26 +1,24 @@
 package com.github.voplex95.plugin.lesscompiler.tasks.lesscompile
 
 import com.github.voplex95.plugin.lesscompiler.utils.Extensions
-import com.github.voplex95.plugin.lesscompiler.validation.StringValidator
+import com.github.voplex95.plugin.lesscompiler.validation.Validator
 
 import static com.github.voplex95.plugin.lesscompiler.utils.FilenameFilters.withExtension
 
-class SourceInputValidator extends StringValidator {
+class SourceInputValidator implements Validator<File> {
 
     @Override
-    boolean validate(String subject) {
-        !isBlank(subject) && isExistingPath(subject) &&
+    boolean validate(File subject) {
+        subject.exists() &&
                 ( isFileWithExtension(subject, Extensions.LESS) ||
                         isFolderThatContainsFilesWithExtension(subject, Extensions.LESS) )
     }
 
-    protected static isFileWithExtension(String subject, String extension) {
-        def f = new File(subject)
-        f.isFile() && f.canRead() && subject.endsWith(extension)
+    protected static isFileWithExtension(File f, String extension) {
+        f.isFile() && f.canRead() && f.name.endsWith(extension)
     }
 
-    protected static isFolderThatContainsFilesWithExtension(String subject, String extension) {
-        def f = new File(subject)
+    protected static isFolderThatContainsFilesWithExtension(File f, String extension) {
         return f.isDirectory() && f.canRead() && f.list(withExtension(extension)).any()
     }
 

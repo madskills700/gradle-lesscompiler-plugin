@@ -11,8 +11,6 @@ buildscript {
 apply plugin: 'less'
 
 lessCompile {
-    source = file('input')
-    excludePrefix = '_'
+    source = file('input/_variables.less')
     target = file('output')
-    compress = true
 }

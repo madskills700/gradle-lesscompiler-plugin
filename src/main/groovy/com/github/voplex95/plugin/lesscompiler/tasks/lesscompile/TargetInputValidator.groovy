@@ -1,12 +1,12 @@
 package com.github.voplex95.plugin.lesscompiler.tasks.lesscompile
 
-import com.github.voplex95.plugin.lesscompiler.validation.StringValidator
+import com.github.voplex95.plugin.lesscompiler.validation.Validator
 
-class TargetInputValidator extends StringValidator {
+class TargetInputValidator implements Validator<File> {
 
     @Override
-    boolean validate(String subject) {
-        !isBlank(subject) && !subject.endsWith(File.separator)
+    boolean validate(File subject) {
+        !subject.name.endsWith(File.separator)
     }
 
 }
