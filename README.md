@@ -1,5 +1,5 @@
 # gradle-lesscompiler-plugin
-Lightweight LESS to CSS Compiler plugin for Gradle.
+Lightweight LESS to CSS Compiler plugin for Gradle. Uses <a href="https://github.com/i-net-software/jlessc">jlessc</a> compiler.
 
 https://plugins.gradle.org/plugin/com.github.voplex95.lesscompiler
 
