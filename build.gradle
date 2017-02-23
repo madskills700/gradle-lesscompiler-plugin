@@ -7,7 +7,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 group 'com.github.voplex95'
-version '1.0.0'
+version '1.0.1'
 
 repositories {
     mavenLocal()
@@ -28,9 +28,9 @@ dependencies {
 }
 
 pluginBundle {
-    website = 'https://github.com/voplex95'
+    website = 'https://github.com/voplex95/gradle-lesscompiler-plugin'
     vcsUrl = 'https://github.com/voplex95/gradle-lesscompiler-plugin'
-    description = 'Plugins for Gradle by voplex95'
+    description = 'Lightweight LESS to CSS compiler plugin'
     tags = ['less', 'css', 'compiler']
 
     plugins {
@@ -38,7 +38,7 @@ pluginBundle {
             id = 'com.github.voplex95.lesscompiler'
             displayName = 'Lightweight LESS to CSS compiler plugin'
             tags = ['less', 'css', 'compiler']
-            version = '1.0.0'
+            version = '1.0.1'
         }
     }
 
