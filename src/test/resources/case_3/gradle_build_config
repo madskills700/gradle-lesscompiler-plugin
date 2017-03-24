@@ -8,7 +8,7 @@ buildscript {
     }
 }
 
-apply plugin: 'less'
+apply plugin: 'com.github.voplex95.lesscompiler'
 
 lessCompile {
     source = file('input/_variables.less')

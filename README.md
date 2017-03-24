@@ -13,7 +13,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.github.voplex95:gradle-lesscompiler-plugin:1.0.1"
+    classpath "gradle.plugin.com.github.voplex95:gradle-lesscompiler-plugin:1.0.2"
   }
 }
 
@@ -23,7 +23,7 @@ apply plugin: "com.github.voplex95.lesscompiler"
 Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
 ```gradle
 plugins {
-  id "com.github.voplex95.lesscompiler" version "1.0.1"
+  id "com.github.voplex95.lesscompiler" version "1.0.2"
 }
 ```
 
