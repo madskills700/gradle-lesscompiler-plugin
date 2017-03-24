@@ -43,3 +43,9 @@ pluginBundle {
     }
 
 }
+
+compileGroovy {
+    doFirst {
+        targetCompatibility = '1.7'
+    }
+}
