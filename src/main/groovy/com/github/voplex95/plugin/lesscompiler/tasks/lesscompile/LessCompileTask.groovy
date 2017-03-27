@@ -40,8 +40,10 @@ class LessCompileTask extends DefaultTask {
 
         for(lessFile in listMatches()) {
             def compiledContent = Less.compile((File)lessFile, compress)
-            def destinationPath = target.isFile() ? target.absolutePath :
-                    target.absolutePath + File.separator + composeCssFileName(((File)lessFile).name)
+            def destinationPath = target.absolutePath
+            if(destinationPath.isDirectory()) {
+               destinationPath = new File(destinationPath, composeCssFileName(((File)lessFile).name))
+            }
 
             PrintWriter writer = new PrintWriter(destinationPath, "UTF-8")
             writer.print(compiledContent)
