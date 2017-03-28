@@ -41,7 +41,7 @@ class LessCompileTask extends DefaultTask {
         for(lessFile in listMatches()) {
             def compiledContent = Less.compile((File)lessFile, compress)
             def destinationPath = target.absolutePath
-            if(destinationPath.isDirectory()) {
+            if(target.isDirectory()) {
                destinationPath = new File(destinationPath, composeCssFileName(((File)lessFile).name))
             }
 
